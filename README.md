@@ -3,8 +3,8 @@ A calculator for Rofi/dmenu(2)
 [Screencast](https://gfycat.com/SociableDopeyHerald)
 
 ## Dependencies
-[bc](https://www.archlinux.org/packages/extra/x86_64/bc/)
-[xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/)
+[bc](https://www.archlinux.org/packages/extra/x86_64/bc/)  
+[xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/)  
 [Rofi](https://aur.archlinux.org/packages/rofi-git/) or dmenu[(2)](https://aur.archlinux.org/packages/dmenu2/)
 
 ## Usage
