@@ -5,19 +5,19 @@
 # Copying to the clipboard requires xclip
 
 usage() {
-    echo "    $(tput bold)menu calc$(tput sgr0)
-    A calculator for use with Rofi or dmenu(2)
-    Basic usage:
+    echo "    $(tput bold)menu-calc$(tput sgr0)
+    A calculator for Rofi/dmenu(2)
+    
+    Usage:
     = 4+2
     = (4+2)/(4+3)
     = 4^2
     = sqrt(4)
     = c(2)
 
-    The answer can be used for further calculations
+    The answer can be copied to the clipboard and used for further calculations inside (or outside) Rofi/dmenu.
 
-    The expression may need quotation marks if
-    launched outside of Rofi/dmenu"
+    If launched outside of Rofi/dmenu the expression may need quotation marks."
     exit
 }
 
