@@ -25,5 +25,5 @@ If launched outside of Rofi/dmenu the expression may need quotation marks.
 ## Custom Usage
 To launch directly into the calculator, use the following command (useful if bound to "super + equal" in [sxhkd](https://github.com/baskerville/sxhkd) or the like):
 ```
-= -v rofi -dmenu
+=
 ```

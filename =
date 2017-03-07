@@ -27,7 +27,7 @@ esac
 
 # Path to menu application
 if [[ -n $(command -v rofi) ]]; then
-    menu="$(command -v rofi) -dmenu"
+    menu="$(command -v rofi) -dmenu -lines 3"
 elif [[ -n $(command -v dmenu) ]]; then
     menu="$(command -v dmenu)"
 else
