@@ -7,7 +7,7 @@
 usage() {
     echo "    $(tput bold)menu-calc$(tput sgr0)
     A calculator for Rofi/dmenu(2)
-    
+
     Usage:
     = 4+2
     = (4+2)/(4+3)

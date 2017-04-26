@@ -1,0 +1,49 @@
+.TH menu-calc 1
+.SH NAME
+menu-calc \- A calculator for
+.BR rofi (1)
+/
+.BR dmenu (1) .
+.SH SYNOPSIS
+.B =
+[\fIrofi/dmenu-parameters\fR | \fIbc-math-expression\fR]
+.SH DESCRIPTION
+.PP
+.BR menu-calc
+uses
+.BR bc (1)
+as the backend and will accept any operations
+.BR bc (1)
+is able to do.
+The answer can be copied to the clipboard and used for further calculations
+inside (or outside) of
+.BR rofi (1)
+/
+.BR dmenu (1) .
+If launched outside of
+.BR rofi (1)
+/
+.BR dmenu (1)
+the expression may need quotation marks.
+.PP
+To launch directly into the calculator, rofi/dmenu parameters can be passed to
+.BR menu-calc .
+.SH OPTIONS
+.TP
+.B rofi/dmenu-parameters
+parameters to be passed to
+.BR rofi (1)
+/
+.BR dmenu (1) .
+This option and \fIbc-math-expression\fR are mutually exclusive.
+.TP
+.B bc-math-expression
+parameters to be passed to
+.BR bc (1) .
+This option and \fIrofi/dmenu-parameters\fR are mutually exclusive.
+.SH AUTHOR
+Jonathan Sumner Evans <sumner.evans98 at gmail dot com>
+.SH "SEE ALSO"
+.BR rofi (1),
+.BR dmenu (1),
+.BR bc (1)
