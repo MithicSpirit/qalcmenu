@@ -1,7 +1,10 @@
-## menu-calc
+# menu-calc
 A calculator for Rofi/dmenu(2)
 
 [Screencast](https://gfycat.com/SociableDopeyHerald)
+
+## Installation
+Arch: [menu-calc (AUR)](https://aur.archlinux.org/packages/menu-calc/)
 
 ## Dependencies
 - [bc](https://www.archlinux.org/packages/extra/x86_64/bc/)
