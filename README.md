@@ -17,7 +17,7 @@ to do:
     = (4+2)/(4+3)
     = 4^2
     = sqrt(4)
-    = c(2)`
+    = c(2)
 
 The answer can be copied to the clipboard and used for further calculations
 inside (or outside) Rofi/dmenu.

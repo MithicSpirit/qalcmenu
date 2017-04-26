@@ -6,6 +6,7 @@ menu-calc \- A calculator for
 .BR dmenu (1) .
 .SH SYNOPSIS
 .B =
+[\fB-h\fR]
 [\fIrofi/dmenu-parameters\fR | \fIbc-math-expression\fR]
 .SH DESCRIPTION
 .PP
@@ -28,7 +29,23 @@ the expression may need quotation marks.
 .PP
 To launch directly into the calculator, rofi/dmenu parameters can be passed to
 .BR menu-calc .
+.SH EXAMPLES
+.TP
+Launch directly into the calculator passing -location 2 -width 100 to rofi/dmenu.
+.B = -location 2 -width 100
+.TP
+Examples of performing math operations in menu-calc:
+.B = 4^2
+.TP
+.RE
+.B = sqrt(4)
+.TP
+.RE
+.B = (4+2)/(4+3)
 .SH OPTIONS
+.TP
+.B \-h
+show help
 .TP
 .B rofi/dmenu-parameters
 parameters to be passed to
