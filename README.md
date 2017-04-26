@@ -1,5 +1,6 @@
 ## menu-calc
 A calculator for Rofi/dmenu(2)
+
 [Screencast](https://gfycat.com/SociableDopeyHerald)
 
 ## Dependencies
