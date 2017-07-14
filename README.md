@@ -4,7 +4,7 @@ A calculator for Rofi/dmenu(2)
 [Screencast](https://gfycat.com/SociableDopeyHerald)
 
 ## Installation
-Arch: [menu-calc (AUR)](https://aur.archlinux.org/packages/menu-calc/)
+Arch Linux AUR: [menu-calc](https://aur.archlinux.org/packages/menu-calc/)
 
 ## Dependencies
 - [bc](https://www.archlinux.org/packages/extra/x86_64/bc/)
@@ -30,7 +30,7 @@ If launched outside of Rofi/dmenu the expression may need quotation marks.
 
 ## Custom Usage
 To launch directly into the calculator, use the following command (useful if
-bound to "super + equal" in [sxhkd](https://github.com/baskerville/sxhkd) or or
+bound to "super + equal" in [sxhkd](https://github.com/baskerville/sxhkd),
 [i3](https://i3wm.org/) or the like):
 
     = [rofi/dmenu parameters]
