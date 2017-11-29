@@ -33,8 +33,14 @@ To launch directly into the calculator, use the following command (useful if
 bound to "super + equal" in [sxhkd](https://github.com/baskerville/sxhkd),
 [i3](https://i3wm.org/) or the like):
 
-    = [rofi/dmenu parameters]
+    = -- [rofi/dmenu parameters]
 
 For example:
 
-    = -location 2 -width 100
+    = -- -location 2 -width 100
+
+### Force usage of `dmenu`
+By default, if `rofi` is installed, it will be used. You can force `menu-calc`
+to use `dmenu` or any other `dmenu`-like application:
+
+    = --dmenu=dmenu
