@@ -40,6 +40,7 @@ do
         -d=*|--dmenu=*)
             menu=$(echo $var | cut -d'=' -f 2);
             ;;
+        --) break ;;
     esac
 done
 
