@@ -54,7 +54,7 @@ if [ ! -n "${menu+1}" ]; then
     elif [[ -n $(command -v dmenu) ]]; then
         menu=$(command -v dmenu)
     else
-        echo >&2 "Rofi or dmenu not found"
+        >&2 echo "Rofi or dmenu not found"
         exit
     fi
 fi
