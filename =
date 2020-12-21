@@ -45,10 +45,12 @@ do
 done
 
 # Grab the answer
-answer=$(echo "$1" | qalc +u8 -color=never -terse | awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')
+if [ -n "$1" ]; then
+    answer=$(echo "$1" | qalc +u8 -color=never -terse | awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')
+fi
 
 # Path to menu application
-if [ ! -n "${menu+1}" ]; then
+if [ -z "${menu+1}" ]; then
     if [[ -n $(command -v rofi) ]]; then
         menu="$(command -v rofi)"
     elif [[ -n $(command -v dmenu) ]]; then
