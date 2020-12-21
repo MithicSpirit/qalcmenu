@@ -7,7 +7,7 @@ A calculator for Rofi/dmenu(2)
 Arch Linux AUR: [menu-qalc](https://aur.archlinux.org/packages/menu-qalc/)
 
 ## Dependencies
-- [bc](https://www.archlinux.org/packages/extra/x86_64/bc/)
+- [libqalculate](https://archlinux.org/packages/extra/x86_64/libqalculate/)
 - [xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/)
 - [Rofi](https://aur.archlinux.org/packages/rofi-git/) or
   dmenu[(2)](https://aur.archlinux.org/packages/dmenu2/)
@@ -20,6 +20,7 @@ Arch Linux AUR: [menu-qalc](https://aur.archlinux.org/packages/menu-qalc/)
     = 4^2
     = sqrt(4)
     = c(2)
+    = '500 + 25%'
     = '1000 EUR to USD'
 
 The answer can be copied to the clipboard and used for further calculations
