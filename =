@@ -45,7 +45,7 @@ do
 done
 
 # Grab the answer
-answer=$(echo "$1" | bc -l | sed '/\./ s/\.\{0,1\}0\{1,\}$//')
+answer=$(echo "$1" | qalc +u8 -color=never -terse | awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')
 
 # Path to menu application
 if [ ! -n "${menu+1}" ]; then
@@ -75,7 +75,7 @@ done
 action=$(echo -e "Copy to clipboard\nClear\nClose" | $menu "$@" -p "= $answer")
 
 case $action in
-    "Clear") $0 "--dmenu=$menu" "--" "$@" ;;
+    "Clear") $0 ;;
     "Copy to clipboard") echo -n "$answer" | xclip -selection clipboard ;;
     "Close") ;;
     "") ;;
