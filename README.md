@@ -1,10 +1,10 @@
-# menu-calc
+# menu-qalc
 A calculator for Rofi/dmenu(2)
 
 [Screencast](https://gfycat.com/SociableDopeyHerald)
 
 ## Installation
-Arch Linux AUR: [menu-calc](https://aur.archlinux.org/packages/menu-calc/)
+Arch Linux AUR: [menu-qalc](https://aur.archlinux.org/packages/menu-qalc/)
 
 ## Dependencies
 - [bc](https://www.archlinux.org/packages/extra/x86_64/bc/)
@@ -13,15 +13,14 @@ Arch Linux AUR: [menu-calc](https://aur.archlinux.org/packages/menu-calc/)
   dmenu[(2)](https://aur.archlinux.org/packages/dmenu2/)
 
 ## Usage
-`menu-calc` uses `bc` as the backend and will accept any operations `bc` is able
-to do:
+`menu-qalc` uses `qalc` as the backend and will accept any operations `qalc` is able to do:
 
-    = -h
     = 4+4
     = (4+2)/(4+3)
     = 4^2
     = sqrt(4)
     = c(2)
+    = '1000 EUR to USD'
 
 The answer can be copied to the clipboard and used for further calculations
 inside (or outside) Rofi/dmenu.
@@ -40,7 +39,7 @@ For example:
     = -- -location 2 -width 100
 
 ### Force usage of `dmenu`
-By default, if `rofi` is installed, it will be used. You can force `menu-calc`
+By default, if `rofi` is installed, it will be used. You can force `menu-qalc`
 to use `dmenu` or any other `dmenu`-like application:
 
     = --dmenu=dmenu
