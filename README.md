@@ -7,8 +7,8 @@ of X and with more robust command line arguments.
 Copy `=` into your `$PATH` and `qalcmenu.1` and `=.1` into your `$MANPATH`. On
 most systems, running the following as root should suffice
 ```bash
-install -m755 ./= /usr/bin/=
-install -m644 -t /usr/share/man/man1 ./=.1 ./qalcmenu.1
+install -m755 -t /usr/bin ./qalcmenu ./=
+install -m644 -t /usr/share/man/man1 ./qalcmenu.1 ./=.1
 ```
 
 ## Dependencies
