@@ -13,7 +13,7 @@ options for the menu.
   -n, --no-opts     disable default options for menu program
   -h, --help        display this help and exit
 
-Full documentation: man 1 menu-qalc
+Full documentation: man menu-qalc.1
 __EOF__
 }
 
