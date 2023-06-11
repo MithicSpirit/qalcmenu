@@ -3,7 +3,7 @@
 usage() {
     cat <<__EOF__
 Usage: = [OPTION]... [QUERY]... [-- [MENU_OPTION]...]
-Use qalc through a menu.
+A qalc frontend for menus like rofi, bemenu, and dmenu.
 
 With no QUERY, initialize blank. MENU_OPTION appends options to the default
 options for the menu.
@@ -13,7 +13,7 @@ options for the menu.
   -n, --no-opts     disable default options for menu program
   -h, --help        display this help and exit
 
-Full documentation: man 1 =
+Full documentation: man 1 menu-qalc
 __EOF__
 }
 

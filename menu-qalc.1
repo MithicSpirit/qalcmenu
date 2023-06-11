@@ -1,0 +1,61 @@
+.TH menu-qalc "1" "" "" "User Commands"
+.SH NAME
+menu-qalc \- A
+.BR qalc (1)
+frontend for menus like
+.BR rofi (1),
+.BR bemenu (1),
+and
+.BR dmenu (1).
+
+.SH SYNOPSIS
+.B =
+[\fI\,OPTION\/\fR]...
+[\fI\,QUERY\/\fR]...
+[-- [\fI\,MENU_OPTION\/\fR]...]
+
+.SH DESCRIPTION
+.PP
+Passes \fI\,QUERY\/\fR and user input to
+.BR qalc (1)
+for computation, and gives back result in menu prompt.
+
+.TP
+\fB\-m\fR, \fB\-\-menu\fR=\fI\,MENU\/\fR
+Select menu to use. Defaults to rofi, bemenu, or dmenu (in this order of
+precedence), depending on which is available. The menu should accept
+newline-delimited options from standard input and should print out the user
+input, which should either be a computation for
+.BR qalc (1)
+or one of the options from the standard input.
+
+.TP
+\fB\-n\fR, \fB\-\-no\-opts\fR
+Disables default options for menu program, which are
+\fB-dmenu -p {}\fR for rofi,
+\fB-p {} -cl 3 -W 0.2\fR for bemenu,
+and \fB-p {}\fR for all else.
+See \fBMENU OPTIONS\fR for more information.
+
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Display short help and exit.
+
+.SH MENU OPTIONS
+.PP
+The options that are passed to the menu are the default options (unless
+\fB\-\-no\-opts\fR is specified) and the options specified in
+\fI\,MENU_OPTIONS\/\fR, in that order. Any instances of the text \fB{}\fR is
+replaced with the prompt, which is "=" if there is no query or of the form
+"= \fIANSWER\fR", where \fIANSWER\fR is the response from
+.BR qalc (1).
+
+
+.SH AUTHOR
+Written by MithicSpirit <rpc01234 at gmail dot com>.
+
+.SH "SEE ALSO"
+.BR qalc (1),
+.BR rofi (1),
+.BR bemenu (1),
+.BR dmenu (1).
