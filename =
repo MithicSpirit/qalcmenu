@@ -1,85 +1,133 @@
 #!/usr/bin/env bash
 
-# https://github.com/onespaceman/menu-calc
-# Calculator for use with rofi/dmenu(2)
-# Copying to the clipboard requires xclip
-
 usage() {
-    echo "$(tput bold)menu-calc$(tput sgr0)"
-    echo "A calculator for Rofi/dmenu(2)"
-    echo
-    echo "$(tput bold)Usage:$(tput sgr0)"
-    echo "    = 4+2"
-    echo "    = (4+2)/(4+3)"
-    echo "    = 4^2"
-    echo "    = sqrt(4)"
-    echo "    = c(2)"
-    echo
-    echo "$(tput bold)Force Rofi/dmenu(2):$(tput sgr0)"
-    echo "By default, if rofi exists, it will be used. To force menu-calc to"
-    echo "use one or the other, use the --dmenu argument"
-    echo
-    echo "    = --dmenu=<dmenu_executable>"
-    echo
-    echo "$(tput bold)Passing arguments to Rofi/dmenu(2):$(tput sgr0)"
-    echo "Any parameters after ' -- ' will be passed to Rofi/dmenu(2)."
-    echo
-    echo "    = -- <Rofi/dmenu(2) args>"
-    echo
-    echo "The answer can be copied to the clipboard and used for further calculations inside (or outside) Rofi/dmenu."
-    echo
-    echo "If launched outside of Rofi/dmenu the expression may need quotation marks."
-    exit
+    cat <<__EOF__
+Usage: = [OPTION]... [QUERY]... [-- [MENU_OPTION]...]
+Use qalc through a menu.
+
+With no QUERY, initialize blank. MENU_OPTION appends options to the default
+options for the menu.
+
+  -m, --menu        select menu program. Defaults to rofi, bemenu, or dmenu
+                    if available
+  -n, --no-opts     disable default options for menu program
+  -h, --help        display this help and exit
+
+Full documentation: man 1 =
+__EOF__
 }
 
-# Process CLI parameters
-for var in "$@"
-do
-    case $var in
-        -h|--help) usage ;;
-        -d=*|--dmenu=*)
-            menu=$(echo $var | cut -d'=' -f 2);
-            ;;
-        --) break ;;
+
+# Process CLI options
+temp="$(getopt -n '=' -o '-h,m:,n' -l 'help,menu:,no-opts' -- "$@")"
+
+case $? in
+    0) ;;
+    1)
+        usage
+        exit 2 ;;
+    *)
+        echo 'Fatal error parsing options' >&2
+        exit 127 ;;
+esac
+
+eval set -- "$temp"
+unset temp
+
+# Set default options
+opts_menu=0
+opts_menu_=''
+opts_no_opts=0
+opts_query=0
+opts_query_=()
+
+# Read options
+while true; do
+    case "$1" in
+        -h|--help)
+            usage
+            shift
+            exit 1 ;;
+        -m|--menu)
+            opts_menu=1
+            opts_menu_="$2"
+            shift 2
+            continue ;;
+        -n|--no-opts)
+            opts_no_opts=1
+            shift 1
+            continue ;;
+        --)
+            shift
+            break ;;
+        *)
+            opts_query=1
+            opts_query_+=("$1")
+            shift
+            continue ;;
     esac
 done
 
-# Grab the answer
-if [ -n "$1" ]; then
-    answer=$(echo "$1" | qalc +u8 -color=never -terse | awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')
+
+# Parse options
+if [ "$opts_menu" -gt 0 ]; then
+    menu="$opts_menu_"
+elif command -v rofi >/dev/null; then
+    menu=rofi
+elif command -v bemenu >/dev/null; then
+    menu=bemenu
+elif command -v dmenu >/dev/null; then
+    menu=dmenu
+else
+    echo 'No menu found or specified' >&2
+    exit 2
 fi
 
-# Path to menu application
-if [ -z "${menu+1}" ]; then
-    if [[ -n $(command -v rofi) ]]; then
-        menu="$(command -v rofi)"
-    elif [[ -n $(command -v dmenu) ]]; then
-        menu=$(command -v dmenu)
+if [ "$opts_no_opts" -gt 0 ]; then
+    moptions=()
+elif [ "$(basename "$menu")" = rofi ]; then
+    moptions=(-dmenu -p {})
+elif [ "$(basename "$menu")" = bemenu ]; then
+    moptions=(-p {} -cl 3 -W 0.2)
+else
+    moptions=(-p {})
+fi
+moptions+=("$@")
+
+if [ "$opts_query" -gt 0 ]; then
+    query="${opts_query_[*]}"
+else
+    query=''
+fi
+
+
+# Event loop
+while true; do
+    # Grab answer
+    if [ -n "$query" ]; then
+        answer=" $(echo "$query" | qalc +u8 -color=never -terse |
+            awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')"
     else
-        >&2 echo "Rofi or dmenu not found"
-        exit
+        answer=''
     fi
-fi
 
-# If using rofi, add the necessary parameters
-if [[ $menu == "rofi" || $menu == $(command -v rofi) ]]; then
-    menu="$menu -dmenu -lines 3"
-elif [[ $menu == "dmenu" || $menu == $(command -v dmenu) ]]; then
-    menu="$menu ""$DMENU_OPTIONS"
-fi
+    # Prompt user
+    moptions_prompt=()
+    for arg in "${moptions[@]}"; do
+        moptions_prompt+=("${arg//\{\}/=$answer}")
+    done
 
-# Determine args to pass to dmenu/rofi
-while [[ $# -gt 0 && $1 != "--" ]]; do
-    shift
+    if ! action=$(echo -e "Copy to clipboard\nClear\nClose" |
+        "$menu" "${moptions_prompt[@]}")
+    then
+        exit 3
+    fi
+
+    # Take action
+    case "$action" in
+        'Clear') query='' ;;
+        'Copy to clipboard') echo "$answer" | wl-copy -n ;;
+        'Close') exit 0 ;;
+        *) query="$answer $action" ;;
+    esac
 done
-[[ $1 == "--" ]] && shift
-
-action=$(echo -e "Copy to clipboard\nClear\nClose" | $menu "$@" -p "= $answer")
-
-case $action in
-    "Clear") $0 "" "--dmenu=$menu" "--" "$@" ;;
-    "Copy to clipboard") echo -n "$answer" | xclip -selection clipboard ;;
-    "Close") ;;
-    "") ;;
-    *) $0 "$answer $action" "--dmenu=$menu" "--" "$@" ;;
-esac
