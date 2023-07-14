@@ -101,12 +101,11 @@ else
     query=''
 fi
 
-
 # Event loop
 while true; do
     # Grab answer
     if [ -n "$query" ]; then
-        answer=" $(echo "$query" | qalc +u8 -color=never -terse |
+        answer="$(echo "$query" | qalc +u8 -color=never -terse |
             awk '!/^>/ && !/^$/ {gsub(/^[ \t]+|[ \t]+$/, "", $0); print}')"
     else
         answer=''
@@ -115,7 +114,9 @@ while true; do
     # Prompt user
     moptions_prompt=()
     for arg in "${moptions[@]}"; do
-        moptions_prompt+=("${arg//\{\}/=$answer}")
+        _answer="$answer"
+        [ -n "$_answer" ] && _answer=" $_answer"
+        moptions_prompt+=("${arg//\{\}/=$_answer}")
     done
 
     if ! action=$(echo -e "Copy to clipboard\nClear\nClose" |
@@ -127,7 +128,7 @@ while true; do
     # Take action
     case "$action" in
         'Clear') query='' ;;
-        'Copy to clipboard') echo "$answer" | wl-copy -n ;;
+        'Copy to clipboard') wl-copy -n "$answer" ;;
         'Close') exit 0 ;;
         *) query="$answer $action" ;;
     esac
