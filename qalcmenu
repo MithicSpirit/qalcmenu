@@ -9,10 +9,10 @@ A qalc frontend for menus like rofi, bemenu, and dmenu.
 With no QUERY, initialize blank. MENU_OPTION appends options to the default
 options for the menu.
 
-  -m, --menu        select menu program. Defaults to rofi, bemenu, or dmenu
-                    if available
-  -g, --gui         select GUI program to delegate to. Defaults to qalculate-gtk
-                    or qalculate-qt if available
+  -m, --menu=MENU   run MENU as the menu. Defaults to rofi, bemenu, or dmenu if
+                    available
+  -g, --gui=PROG    run PROG when opening in GUI. Defaults to qalculate-gtk or
+                    qalculate-qt if available
   -n, --no-opts     disable default options for menu program
   -h, --help        display this help and exit
 
