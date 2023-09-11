@@ -35,6 +35,13 @@ input, which should either be a computation for
 or one of the options from the standard input.
 
 .TP
+\fB\-g\fR, \fB\-\-gui\fR=\fI\,PROG\/\fR
+Select GUI program to use when selecting "Open in GUI". Defaults to
+qalculate-gtk or qalculate-qt (in this order of precedence), depending on which
+is available. The GUI program should accept the initial expression as the first
+argument.
+
+.TP
 \fB\-n\fR, \fB\-\-no\-opts\fR
 Disables default options for menu program, which are
 \fB-dmenu -p {}\fR for rofi,

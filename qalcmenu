@@ -11,6 +11,8 @@ options for the menu.
 
   -m, --menu        select menu program. Defaults to rofi, bemenu, or dmenu
                     if available
+  -g, --gui         select GUI program to delegate to. Defaults to qalculate-gtk
+                    or qalculate-qt if available
   -n, --no-opts     disable default options for menu program
   -h, --help        display this help and exit
 
@@ -20,7 +22,7 @@ __EOF__
 
 
 # Process CLI options
-temp="$(getopt -n "$0" -o '-h,m:,n' -l 'help,menu:,no-opts' -- "$@")"
+temp="$(getopt -n "$0" -o '-h,m:,n,g:' -l 'help,menu:,no-opts,gui:' -- "$@")"
 
 case $? in
     0) ;;
@@ -41,6 +43,8 @@ opts_menu_=''
 opts_no_opts=0
 opts_query=0
 opts_query_=()
+opts_gui=0
+opts_gui_=''
 
 # Read options
 while true; do
@@ -57,6 +61,11 @@ while true; do
         -n|--no-opts)
             opts_no_opts=1
             shift 1
+            continue ;;
+        -g|--gui)
+            opts_gui=1
+            opts_gui_="$2"
+            shift 2
             continue ;;
         --)
             shift
@@ -84,12 +93,24 @@ else
     exit 2
 fi
 
+
+if [ "$opts_gui" -gt 0 ]; then
+    gui="$opts_gui_"
+elif command -v qalculate-gtk >/dev/null; then
+    gui=qalculate-gtk
+elif command -v qalculate-qt >/dev/null; then
+    gui=qalculate-qt
+else
+    gui=''
+fi
+
+
 if [ "$opts_no_opts" -gt 0 ]; then
     moptions=()
 elif [ "$(basename "$menu")" = rofi ]; then
     moptions=(-dmenu -p {})
 elif [ "$(basename "$menu")" = bemenu ]; then
-    moptions=(-p {} -cl 3 -W 0.2)
+    moptions=(-p {} -cl 4 -W 0.2)
 else
     moptions=(-p {})
 fi
@@ -100,6 +121,12 @@ if [ "$opts_query" -gt 0 ]; then
 else
     query=''
 fi
+
+actions="Copy to clipboard"
+if [ -n "$gui" ]; then
+    actions+="\nOpen in GUI"
+fi
+actions+="\nClear\nClose"
 
 # Event loop
 while true; do
@@ -119,8 +146,7 @@ while true; do
         moptions_prompt+=("${arg//\{\}/=$_answer}")
     done
 
-    if ! action=$(echo -e "Copy to clipboard\nClear\nClose" |
-        "$menu" "${moptions_prompt[@]}")
+    if ! action=$(echo -e "$actions" | "$menu" "${moptions_prompt[@]}")
     then
         exit 3
     fi
@@ -128,6 +154,7 @@ while true; do
     # Take action
     case "$action" in
         'Clear') query='' ;;
+        'Open in GUI') exec "$gui" "$answer" ;;
         'Copy to clipboard') wl-copy -n "$answer" ;;
         'Close') exit 0 ;;
         *) query="$answer $action" ;;
