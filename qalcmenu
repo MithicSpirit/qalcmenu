@@ -154,10 +154,10 @@ while true; do
     # Take action
     case "$action" in
         'Clear') query='' ;;
-        'Open in GUI') exec "$gui" "$answer" ;;
+        'Open in GUI') exec "$gui" "$query" ;;
         'Copy to clipboard') wl-copy -n "$answer" ;;
         'Close') exit 0 ;;
-        *) query="$answer $action" ;;
+        *) query="${answer:+$answer }$action" ;;
     esac
 done
 
